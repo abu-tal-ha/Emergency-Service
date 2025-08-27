@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   let favCountEl = document.getElementById("favCount");
   let coinCountEl = document.getElementById("coinCount");
-
+  let historyContainer = document.querySelector(".space-y-3");
+  let clearBtn = document.querySelector(".clear-btn");
+  let copyCounterBtn = document.getElementById("copyCounterBtn");
 
   let favCount = 0;
   let coins = 100;
-
+  let copyCount = 0;
 
   // Heart Button Functionality
   document.querySelectorAll(".fav-btn").forEach((btn) => {
@@ -17,12 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-
-
-
   //Call Button Functionality
 
-   document.querySelectorAll(".call-btn").forEach((btn) => {
+  document.querySelectorAll(".call-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const card = e.target.closest(".bg-white");
       const serviceName = card.querySelector("h2").textContent;
@@ -54,7 +53,25 @@ document.addEventListener("DOMContentLoaded", () => {
       historyContainer.prepend(historyItem);
     });
   });
+
+  document.querySelectorAll(".copy-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const card = e.target.closest(".bg-white");
+      const serviceNumber = card.querySelector("p.text-2xl").textContent;
+
+      navigator.clipboard
+        .writeText(serviceNumber)
+        .then(() => {
+          copyCount++;
+          copyCounterBtn.textContent = copyCount + " Copy";
+          alert(`নম্বর কপি হয়েছে: ${serviceNumber}`);
+        })
+        .catch(() => alert("❌ Failed to copy!"));
+    });
+  });
+
+  // Clear History Button
+  clearBtn.addEventListener("click", () => {
+    historyContainer.innerHTML = "";
+  });
 });
-
-
-
